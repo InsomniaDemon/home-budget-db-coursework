@@ -1,4 +1,4 @@
-package gadgethub.backend;
+package homebudget.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
