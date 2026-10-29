@@ -45,4 +45,20 @@ public class UsersRepository {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }
     }
+
+    public void insertNewUser(String username, String passwordHash, String role) throws SQLException {
+        String sql = """
+                INSERT INTO users(username, password, role)
+                VALUES (?, ?, ?)
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, passwordHash);
+            preparedStatement.setString(3, role);
+            preparedStatement.execute();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
 }
