@@ -49,6 +49,36 @@ public class ArticlesRepository {
         }
     }
 
+    public void updateArticleName(Long id, String newName) throws SQLException {
+        String sql = """
+                UPDATE articles
+                SET name = ?
+                WHERE id = ?
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, newName);
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    public void deleteArticle(Long id) throws SQLException {
+        String sql = """
+                DELETE FROM articles
+                WHERE id = ?
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeQuery();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
     private Article mapRowToArticle(ResultSet resultSet) throws SQLException {
         return new Article(resultSet.getLong("id"), resultSet.getString("name"));
     }
