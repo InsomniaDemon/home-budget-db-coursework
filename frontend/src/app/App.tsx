@@ -1,13 +1,13 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
-import Header from "../widgets/header/Header.tsx"
-import Footer from "../widgets/footer/Footer.tsx"
+import { Header } from "@/widgets/header"
+import { Footer } from "@/widgets/footer"
 import styles from "./App.module.scss"
 import "./global.css"
 import "./colours.css"
-import Operations from "../pages/operations/Operations.tsx";
-import Balances from "../pages/balances/Balances.tsx";
-import Authorisation from "../pages/authorisation/Authorisation.tsx";
-import Articles from "../pages/articles/Articles.tsx";
+import Operations from "@/pages/operations/Operations.tsx";
+import Balances from "@/pages/balances/Balances.tsx";
+import Authorisation from "@/pages/authorisation/Authorisation.tsx";
+import Articles from "@/pages/articles/Articles.tsx";
 
 function App() {
   return (

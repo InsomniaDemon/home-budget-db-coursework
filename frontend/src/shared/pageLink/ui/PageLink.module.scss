@@ -1,0 +1,22 @@
+.pageLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 60px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--white);
+  font-weight: 500;
+  font-size: 24px;
+  background-color: var(--dark-grey);
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: var(--dark-grey-hover);
+  }
+
+  &.active {
+    background-color: var(--dark-grey-hover);
+  }
+}

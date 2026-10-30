@@ -1,0 +1,23 @@
+.header {
+  padding: 2em 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4em;
+
+  .title {
+    font-size: 40px;
+    margin-right: auto;
+    display: flex;
+    gap: 8px;
+    font-weight: bold;
+
+    .home {
+      color: var(--white);
+    }
+
+    .budget {
+      color: var(--white);
+    }
+  }
+}

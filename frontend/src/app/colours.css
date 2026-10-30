@@ -1,4 +1,9 @@
 :root {
-  --light-grey: #26282c;
-  --dark-grey: #191a1c;
+  --light-grey: #202020;
+  --dark-grey: #1c1c1c;
+  --dark-grey-hover: #151515;
+  --blue: #5b5edf;
+  --purple: #d15dbe;
+  --white: #dddddd;
+  --black: #080808;
 }
