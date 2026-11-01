@@ -1,6 +1,6 @@
 
 
-export function Articles() {
+export function ArticlesPage() {
     return (
         <div>
             Articles
@@ -8,4 +8,4 @@ export function Articles() {
     );
 }
 
-export default Articles
+export default ArticlesPage

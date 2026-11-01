@@ -1,0 +1,1 @@
+export {default as BalancesPage} from './ui/BalancesPage'

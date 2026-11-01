@@ -1,0 +1,1 @@
+export {default as AuthorisationPage} from "./ui/AuthorisationPage"

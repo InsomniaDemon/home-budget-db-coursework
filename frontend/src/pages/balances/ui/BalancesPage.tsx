@@ -1,6 +1,6 @@
 
 
-export function Balances() {
+export function BalancesPage() {
     return (
         <div>
             Balances
@@ -8,4 +8,4 @@ export function Balances() {
     );
 }
 
-export default Balances
+export default BalancesPage
