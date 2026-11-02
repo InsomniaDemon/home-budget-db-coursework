@@ -3,8 +3,65 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  gap: 2em;
 
-  .chosenForm {
+  .options {
+    display: flex;
+    .chosenForm {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 500;
+      width: 150px;
+      height: 40px;
+      font-size: 24px;
+      color: var(--white);
+      transition: opacity 0.3s ease;
+      position: relative;
 
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background-color: var(--white);
+        border-radius: 4px;
+        opacity: 0.5;
+        transition: opacity 0.5s ease;
+      }
+
+      &:has(input:checked) {
+        color: white;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+
+      input {
+        display: none;
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .authForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 500px;
+    width: 500px;
+    background-color: var(--dark-grey);
+    border-radius: 30px;
   }
 }

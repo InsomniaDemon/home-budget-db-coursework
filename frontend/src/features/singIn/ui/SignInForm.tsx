@@ -1,10 +1,14 @@
 import styles from "./SignInForm.module.scss"
+import {FormInput} from "@/shared/formInput";
+import SubmitButton from "@/shared/submitButton/ui/SubmitButton.tsx";
 
 export function SignIn() {
     return (
-        <div className={styles.signIn}>
-            SignIn
-        </div>
+        <form className={styles.signIn}>
+            <FormInput label="login" isPassword={false}/>
+            <FormInput label="password" isPassword={true}/>
+            <SubmitButton text="sign in"/>
+        </form>
     );
 }
 

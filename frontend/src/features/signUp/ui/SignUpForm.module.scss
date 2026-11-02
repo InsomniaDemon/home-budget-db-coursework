@@ -1,3 +1,62 @@
 .signUp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 
+  &.noOwner {
+    gap: 3em;
+  }
+
+  .note {
+    font-size: 20px;
+    color: var(--white);
+  }
+
+  .userType {
+    display: flex;
+    gap: 2em;
+    font-size: 20px;
+    color: var(--white);
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      input[type="radio"] {
+        position: relative;
+        margin: 0;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: var(--white);
+        transition: 0.3s ease;
+
+        &:checked {
+          background-color: var(--white);
+
+          &::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--dark-grey);
+          }
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
 }

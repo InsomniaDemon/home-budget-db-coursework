@@ -1,0 +1,35 @@
+.formInput {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--white);
+  font-size: 20px;
+
+  span {
+    margin-left: 8px;
+  }
+
+  input {
+    font-size: 20px;
+    padding: 0 1em;
+    width: 308px;
+    height: 64px;
+    background-color: var(--dark-grey-hover);
+    border: none;
+    border-radius: 10px;
+    color: var(--white);
+    transition: 0.3s ease;
+
+    &:focus {
+      outline: 2px solid var(--white);
+    }
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 600000s 0s, color 600000s 0s;
+    -webkit-text-fill-color: var(--white) !important;
+  }
+}

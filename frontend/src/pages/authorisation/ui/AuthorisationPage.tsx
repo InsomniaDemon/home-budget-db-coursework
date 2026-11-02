@@ -8,19 +8,21 @@ export function AuthorisationPage() {
 
     return (
         <div className={styles.auth}>
-            <div>
+            <div className={styles.options}>
                 <label className={styles.chosenForm} >
                     <input type="radio" name="page" checked={isSignInShown === true} onChange={() => setIsSignInShown(true)}></input>
-                    <span>Корзина</span>
+                    <span>Sign in</span>
                 </label>
                 <label className={styles.chosenForm}>
                     <input type="radio" name="page" checked={isSignInShown === false} onChange={() => setIsSignInShown(false)}></input>
-                    <span>История заказов</span>
+                    <span>Sign up</span>
                 </label>
             </div>
 
-            {isSignInShown && <SignInForm/>}
-            {!isSignInShown && <SignUpForm/>}
+            <div className={styles.authForm}>
+                {isSignInShown && <SignInForm/>}
+                {!isSignInShown && <SignUpForm/>}
+            </div>
         </div>
     );
 }
