@@ -19,6 +19,14 @@ public class RegistrationService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public boolean isOwnerExists() {
+        try {
+            return !usersRepository.isUsersEmpty();
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
     //TODO: add exception handling
     public String registerNewOwner(String username, String password) {
         String passwordHash = passwordEncoder.encode(password);

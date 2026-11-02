@@ -1,10 +1,10 @@
 import styles from "./FormInput.module.scss"
 
-export function FormInput({label, isPassword}: {label: string, isPassword: boolean}) {
+export function FormInput({label, isHidden}: {label: string, isHidden: boolean}) {
     return (
         <label className={styles.formInput}>
             <span>{label}</span>
-            <input type={isPassword && "password"}/>
+            <input type={isHidden ? "password" : "text"} />
         </label>
     );
 }
