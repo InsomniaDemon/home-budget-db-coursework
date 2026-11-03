@@ -15,34 +15,36 @@ export async function getDoesOwnerExist(): Promise<boolean> {
     return await response.json();
 }
 
-export async function registerNewOwner(login: string, password: string): Promise<string> {
+export async function registerNewOwner(username: string, password: string): Promise<string> {
     const path = `/reg/owner`
+    const role = ""
+    const ownersPassword = ""
 
     const response = await fetch(`${BASE_URL}${path}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify( {login, password} ),
+        body: JSON.stringify( {username, password, role, ownersPassword} ),
     })
 
     if (!response.ok) {
         throw new Error(`Failed to register new owner: ${response.status}`)
     }
 
-    return await response.json();
+    return await response.text();
 }
 
-export async function registerNewUser(login: string, password: string, role: string): Promise<string> {
+export async function registerNewUser(username: string, password: string, role: string, ownersPassword: string): Promise<string> {
     const path = `/reg`
 
     const response = await fetch(`${BASE_URL}${path}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({login, password, role}),
+        body: JSON.stringify({username, password, role, ownersPassword}),
     })
 
     if (!response.ok) {
         throw new Error(`Failed to register new user: ${response.status}`)
     }
 
-    return await response.json();
+    return await response.text();
 }

@@ -4,7 +4,7 @@ import * as React from "react"
 interface AuthContextType {
     jwt: string
     setJwt: React.Dispatch<React.SetStateAction<string | undefined>>
-    logIn: (jwt: string | null) => void
+    login: (jwt: string | null) => void
     logout: () => void
 }
 
@@ -17,7 +17,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         }
     )
 
-    const logIn = (jwt: string | null) => {
+    const login = (jwt: string | null) => {
         localStorage.setItem("jwt", jwt)
         setJwt(jwt)
     }
@@ -28,7 +28,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     }
 
     return (
-        <AuthContext.Provider value={{ jwt, setJwt, logIn, logout}}>
+        <AuthContext.Provider value={{ jwt, setJwt, login, logout}}>
             {children}
         </AuthContext.Provider>
     )

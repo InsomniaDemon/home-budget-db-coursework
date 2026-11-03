@@ -61,4 +61,37 @@ public class UsersRepository {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }
     }
+
+    public String getOwnersPasswordHash() throws SQLException {
+        String sql = """
+                SELECT password FROM users
+                WHERE role = 'owner'
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            return resultSet.getString("password");
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    public String getUsersPasswordHash(String username) throws SQLException {
+        String sql = """
+                SELECT password FROM users
+                WHERE username = ?
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, username);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getString("password");
+            }
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
 }

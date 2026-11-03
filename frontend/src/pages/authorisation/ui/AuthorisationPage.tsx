@@ -1,10 +1,21 @@
 import styles from "./AuthorisationPage.module.scss"
-import {SignInForm} from "@/features/singIn";
-import {useState} from "react";
+import {SignInForm} from "@/features/signIn";
+import {useEffect, useState} from "react";
 import {SignUpForm} from "@/features/signUp";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "@/entities/auth";
 
 export function AuthorisationPage() {
     const [isSignInShown, setIsSignInShown] = useState<boolean>(true)
+
+    const navigate = useNavigate()
+    const {jwt} = useAuth()
+
+    useEffect(() => {
+        if (jwt) {
+            navigate("/operations")
+        }
+    }, [jwt, navigate])
 
     return (
         <div className={styles.auth}>
