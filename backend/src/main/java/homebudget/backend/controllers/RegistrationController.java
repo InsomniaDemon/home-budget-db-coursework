@@ -1,6 +1,7 @@
 package homebudget.backend.controllers;
 
-import homebudget.backend.dtos.requests.RegRequest;
+import homebudget.backend.dtos.requests.RegNewOwnerRequest;
+import homebudget.backend.dtos.requests.RegNewUserRequest;
 import homebudget.backend.services.RegistrationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,12 @@ public class RegistrationController {
     }
 
     @PostMapping("/owner")
-    public String registerOwner(@RequestBody RegRequest regRequest) {
-        return registrationService.registerNewOwner(regRequest);
+    public String registerOwner(@RequestBody RegNewOwnerRequest regNewOwnerRequest) {
+        return registrationService.registerNewOwner(regNewOwnerRequest);
     }
 
     @PostMapping("")
-    public String registerUser(@RequestBody RegRequest regRequest) {
-        return registrationService.registerNewUser(regRequest);
+    public String registerUser(@RequestBody RegNewUserRequest regNewUserRequest) {
+        return registrationService.registerNewUser(regNewUserRequest);
     }
 }

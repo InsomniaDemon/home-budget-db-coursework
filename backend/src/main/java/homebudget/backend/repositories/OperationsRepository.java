@@ -1,6 +1,7 @@
 package homebudget.backend.repositories;
 
 import homebudget.backend.dtos.NewOperation;
+import homebudget.backend.dtos.Operation;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class OperationsRepository {
@@ -36,5 +40,37 @@ public class OperationsRepository {
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }
+    }
+
+    public List<Operation> getOperationsList() throws SQLException {
+        String sql = """
+                SELECT * FROM operations
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            return mapRowToOperationsList(resultSet);
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    public Operation mapRowToOperation(ResultSet resultSet) throws SQLException {
+        return new Operation(
+                resultSet.getLong("id"),
+                resultSet.getLong("article_id"),
+                resultSet.getLong("debit"),
+                resultSet.getLong("credit"),
+                resultSet.getString("create_date"),
+                resultSet.getLong("balance_id")
+        );
+    }
+
+    public List<Operation> mapRowToOperationsList(ResultSet resultSet) throws SQLException {
+        List<Operation> operations = new ArrayList<>();
+        while (resultSet.next()) {
+            operations.add(mapRowToOperation(resultSet));
+        }
+        return operations;
     }
 }

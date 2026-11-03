@@ -1,7 +1,9 @@
 package homebudget.backend.services;
 
+import homebudget.backend.dtos.User;
 import homebudget.backend.dtos.requests.AuthRequest;
-import homebudget.backend.dtos.requests.RegRequest;
+import homebudget.backend.dtos.requests.RegNewOwnerRequest;
+import homebudget.backend.dtos.requests.RegNewUserRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import homebudget.backend.repositories.UsersRepository;
@@ -30,23 +32,23 @@ public class RegistrationService {
     }
 
     //TODO: add exception handling
-    public String registerNewOwner(RegRequest regRequest) {
-        String passwordHash = passwordEncoder.encode(regRequest.password());
+    public String registerNewOwner(RegNewOwnerRequest regNewOwnerRequest) {
+        String passwordHash = passwordEncoder.encode(regNewOwnerRequest.password());
         try {
-            usersRepository.insertNewOwner(regRequest.username(), passwordHash);
-            return jwtService.generateAccessToken(regRequest.username());
+            usersRepository.insertNewOwner(regNewOwnerRequest.username(), passwordHash);
+            return jwtService.generateAccessToken(regNewOwnerRequest.username(), "owner");
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE: " + regRequest.username() + " " + regRequest.password());
+            throw new RuntimeException("CHANGE: " + regNewOwnerRequest.username() + " " + regNewOwnerRequest.password());
         }
     }
 
     //TODO: add exception handling
-    public String registerNewUser(RegRequest regRequest) {
-        validatePassword(regRequest.ownersPassword(), getOwnersPasswordHash());
-        String passwordHash = passwordEncoder.encode(regRequest.password());
+    public String registerNewUser(RegNewUserRequest regNewUserRequest) {
+        validatePassword(regNewUserRequest.ownersPassword(), getOwnersPasswordHash());
+        String passwordHash = passwordEncoder.encode(regNewUserRequest.password());
         try {
-            usersRepository.insertNewUser(regRequest.username(), passwordHash, regRequest.role());
-            return jwtService.generateAccessToken(regRequest.username());
+            usersRepository.insertNewUser(regNewUserRequest.username(), passwordHash, regNewUserRequest.role());
+            return jwtService.generateAccessToken(regNewUserRequest.username(), regNewUserRequest.role());
         } catch (SQLException e) {
             /*if ("23505".equals(e.getSQLState())) {
                 throw new UsernameAlreadyExistsException("A user with this username already exists");
@@ -67,9 +69,9 @@ public class RegistrationService {
 
     public String authenticateUser(AuthRequest authRequest) {
         try {
-            String passwordHash = usersRepository.getUsersPasswordHash(authRequest.username());
-            validatePassword(authRequest.password(), passwordHash);
-            return jwtService.generateAccessToken(authRequest.username());
+            User user = usersRepository.getUserByUsername(authRequest.username());
+            validatePassword(authRequest.password(), user.password());
+            return jwtService.generateAccessToken(authRequest.username(), user.role());
         } catch (SQLException e) {
             throw new RuntimeException("CHANGE INVALID CREDENTIALS " + authRequest.username() + " " + authRequest.password());
         }

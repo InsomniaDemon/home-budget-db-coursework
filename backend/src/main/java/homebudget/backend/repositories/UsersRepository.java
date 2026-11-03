@@ -77,9 +77,9 @@ public class UsersRepository {
         }
     }
 
-    public String getUsersPasswordHash(String username) throws SQLException {
+    public User getUserByUsername(String username) throws SQLException {
         String sql = """
-                SELECT password FROM users
+                SELECT * FROM users
                 WHERE username = ?
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
@@ -88,10 +88,16 @@ public class UsersRepository {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
-                return resultSet.getString("password");
+                return mapRowToUser(resultSet);
             }
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }
+    }
+
+    private User mapRowToUser(ResultSet resultSet) throws SQLException {
+        return new User(resultSet.getString("username"),
+                resultSet.getString("password"),
+                resultSet.getString("role"));
     }
 }

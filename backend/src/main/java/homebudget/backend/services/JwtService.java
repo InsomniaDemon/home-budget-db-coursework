@@ -15,11 +15,12 @@ public class JwtService {
         this.jwtDecoder = jwtDecoder;
     }
 
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(String username, String role) {
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(username)
+                .claim("role", role)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(60 * 60 * 24))
                 .build();

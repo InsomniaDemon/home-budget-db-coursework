@@ -3,10 +3,11 @@ import styles from "./Header.module.scss"
 import {useEffect} from "react";
 import {useAuth} from "@/entities/auth";
 import {useNavigate} from "react-router-dom";
+import logoutImg from "@/assets/images/logout.png"
 
 
 export function Header() {
-    const {jwt} = useAuth()
+    const {jwt, logout} = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -22,9 +23,13 @@ export function Header() {
                     <p className={styles.home}>Home</p>
                     <p className={styles.budget}>Budget</p>
                 </div>
-                <PageLink page="/operations" buttonText="OperationsPage"/>
-                <PageLink page="/articles" buttonText="ArticlesPage"/>
-                <PageLink page="/balances" buttonText="BalancesPage"/>
+                {jwt && <PageLink page="/operations" buttonText="OperationsPage"/>}
+                {jwt && <PageLink page="/articles" buttonText="ArticlesPage"/>}
+                {jwt && <PageLink page="/balances" buttonText="BalancesPage"/>}
+                {jwt &&
+                    <button className={styles.logout} onClick={logout}>
+                        <img src={logoutImg} alt="logout img"/>
+                    </button>}
             </div>
         </div>
     );

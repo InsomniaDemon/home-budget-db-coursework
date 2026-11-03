@@ -1,0 +1,32 @@
+.gridview {
+  color: var(--white);
+  font-weight: bold;
+  font-size: 22px;
+  border: 2px solid var(--white);
+  border-radius: 8px;
+  width: fit-content;
+
+  .row {
+    display: flex;
+
+    &:not(:last-child) {
+      border-bottom: 2px solid var(--white);
+    }
+  }
+
+  .cell {
+    display: flex;
+    justify-content: flex-end;
+    width: 190px;
+    padding: 4px 6px;
+    border-right: 2px solid var(--white);
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &.header {
+      justify-content: flex-start;
+    }
+  }
+}

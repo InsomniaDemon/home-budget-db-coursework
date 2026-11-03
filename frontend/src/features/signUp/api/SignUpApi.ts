@@ -17,13 +17,11 @@ export async function getDoesOwnerExist(): Promise<boolean> {
 
 export async function registerNewOwner(username: string, password: string): Promise<string> {
     const path = `/reg/owner`
-    const role = ""
-    const ownersPassword = ""
 
     const response = await fetch(`${BASE_URL}${path}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify( {username, password, role, ownersPassword} ),
+        body: JSON.stringify( {username, password} ),
     })
 
     if (!response.ok) {

@@ -1,7 +1,6 @@
 package homebudget.backend.controllers;
 
 import homebudget.backend.dtos.requests.AuthRequest;
-import homebudget.backend.dtos.requests.RegRequest;
 import homebudget.backend.services.RegistrationService;
 import org.springframework.web.bind.annotation.*;
 
