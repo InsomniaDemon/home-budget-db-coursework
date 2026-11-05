@@ -6,7 +6,7 @@ export function OperationsPage() {
 
     return (
         <div className={styles.operations}>
-            <GridView headers={headers} path={"/op"}/>
+            <GridView headers={headers} path={"/op"} isEditable={true}/>
         </div>
     );
 }

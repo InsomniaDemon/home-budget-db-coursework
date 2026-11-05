@@ -6,7 +6,7 @@ export function BalancesPage() {
 
     return (
         <div>
-            <GridView headers={headers} path="/balances"/>
+            <GridView headers={headers} path="/balances" isEditable={false}/>
         </div>
     );
 }

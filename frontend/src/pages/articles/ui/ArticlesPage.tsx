@@ -6,7 +6,7 @@ export function ArticlesPage() {
 
     return (
         <div>
-            <GridView headers={headers} path="/articles"/>
+            <GridView headers={headers} path="/articles" isEditable={true}/>
         </div>
     );
 }

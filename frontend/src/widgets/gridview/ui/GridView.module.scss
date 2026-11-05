@@ -1,32 +1,76 @@
 .gridview {
-  color: var(--white);
-  font-weight: bold;
-  font-size: 22px;
-  border: 2px solid var(--white);
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   width: fit-content;
 
-  .row {
-    display: flex;
+  .table {
+    color: var(--white);
+    font-weight: bold;
+    font-size: 22px;
+    border: 2px solid var(--white);
+    border-radius: 8px;
+    width: fit-content;
 
-    &:not(:last-child) {
-      border-bottom: 2px solid var(--white);
+    .rowAndButtons {
+      width: 100%;
+      position: relative;
+
+      .buttons {
+        position: absolute;
+        top: 0;
+        right: -100px;
+        height: 34px;
+        width: 80px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+
+    .row {
+      display: flex;
+
+      &:not(:last-child) {
+        border-bottom: 2px solid var(--white);
+      }
+    }
+
+    .cell {
+      display: flex;
+      justify-content: flex-end;
+      width: 190px;
+      padding: 4px 6px;
+      border-right: 2px solid var(--white);
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &.header {
+        justify-content: flex-start;
+      }
     }
   }
 
-  .cell {
-    display: flex;
-    justify-content: flex-end;
-    width: 190px;
-    padding: 4px 6px;
-    border-right: 2px solid var(--white);
+  button {
+    background-color: transparent;
+    border: none;
 
-    &:last-child {
-      border-right: none;
+    &:hover {
+      cursor: pointer;
     }
 
-    &.header {
-      justify-content: flex-start;
+    img {
+      width: 28px;
+      height: 28px;
+      opacity: 0.84;
     }
+  }
+
+  .plus {
+    margin-left: auto;
+    margin-right: 10px;
   }
 }
