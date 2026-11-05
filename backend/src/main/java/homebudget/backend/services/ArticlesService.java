@@ -22,4 +22,28 @@ public class ArticlesService {
             throw new RuntimeException("CHANGE");
         }
     }
+
+    public void addNewArticle(String name) {
+        try {
+            articlesRepository.insertNewArticle(name);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
+    public void deleteArticle(Long id) {
+        try {
+            articlesRepository.deleteArticle(id);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
+    public void deleteArticleWithOperations(Long id) {
+        try {
+            articlesRepository.deleteArticleWithOperations(id);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
 }

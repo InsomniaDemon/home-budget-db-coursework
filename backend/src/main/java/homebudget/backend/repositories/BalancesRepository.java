@@ -21,6 +21,40 @@ public class BalancesRepository {
         this.dataSource = dataSource;
     }
 
+    public void deleteBalance(Long id) throws SQLException {
+        String sql = """
+                DELETE FROM balance
+                WHERE id = ?
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.execute();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    public void deleteBalanceWithOperations(Long id) throws SQLException {
+        String sql = """
+                BEGIN;
+                    DELETE FROM operations
+                    WHERE balance_id = ?;
+                
+                    DELETE FROM balance
+                    WHERE id = ?;
+                COMMIT;
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(2, id);
+            preparedStatement.execute();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
     public List<Balance> getBalancesList() throws SQLException {
         String sql = """
                 SELECT * FROM balance

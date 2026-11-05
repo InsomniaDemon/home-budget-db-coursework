@@ -20,17 +20,15 @@ public class ArticlesRepository {
         this.dataSource = dataSource;
     }
 
-    public Long insertNewArticle(String name) throws SQLException {
+    public void insertNewArticle(String name) throws SQLException {
         String sql = """
                 INSERT INTO articles(name)
                 VALUES (?)
-                RETURNING id
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            resultSet.next();
-            return resultSet.getLong("id");
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.execute();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }
@@ -49,7 +47,7 @@ public class ArticlesRepository {
         }
     }
 
-    public void updateArticleName(Long id, String newName) throws SQLException {
+    public void updateArticle(Long id, String newName) throws SQLException {
         String sql = """
                 UPDATE articles
                 SET name = ?
@@ -73,7 +71,27 @@ public class ArticlesRepository {
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    public void deleteArticleWithOperations(Long id) throws SQLException {
+        String sql = """
+                BEGIN;
+                    DELETE FROM operations
+                    WHERE article_id = ?;
+                
+                    DELETE FROM articles
+                    WHERE id = ?;
+                COMMIT;
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(2, id);
+            preparedStatement.execute();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }

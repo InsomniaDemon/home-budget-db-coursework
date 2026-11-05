@@ -13,11 +13,11 @@ CREATE TABLE balance (
 
 CREATE TABLE operations (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    article_id BIGINT NOT NULL REFERENCES articles(id)
-        ON DELETE CASCADE,
+    article_id BIGINT REFERENCES articles(id)
+        ON DELETE SET NULL,
     debit BIGINT NOT NULL CHECK (debit >= 0),
     credit BIGINT NOT NULL CHECK (credit >= 0),
     create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     balance_id BIGINT REFERENCES balance(id)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
 );

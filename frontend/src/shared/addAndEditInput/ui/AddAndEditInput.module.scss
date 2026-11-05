@@ -1,0 +1,23 @@
+.addAndEditInput {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--white);
+  font-size: 20px;
+
+  input {
+    font-size: 20px;
+    padding: 0 1em;
+    width: 180px;
+    height: 32px;
+    background-color: var(--dark-grey-hover);
+    border: none;
+    border-radius: 10px;
+    color: var(--white);
+    transition: 0.3s ease;
+
+    &:focus {
+      outline: 2px solid var(--white);
+    }
+  }
+}

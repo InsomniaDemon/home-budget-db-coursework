@@ -1,5 +1,5 @@
 import styles from "./SignInForm.module.scss"
-import {FormInput} from "@/shared/formInput";
+import {AuthInput} from "@/shared/authInput";
 import {SubmitButton} from "@/shared/submitButton";
 import {useAuth} from "@/entities/auth";
 import {signInUser} from "@/features/signIn";
@@ -15,9 +15,6 @@ export function SignIn() {
         const username = formData.get("username") as string
         const password = formData.get("password") as string
 
-        console.log(username)
-        console.log(password)
-
         try {
             const jwt = await signInUser(username, password)
             login(jwt)
@@ -28,8 +25,8 @@ export function SignIn() {
 
     return (
         <form className={styles.signIn} onSubmit={handleSubmit}>
-            <FormInput label="username" isHidden={false} name="username"/>
-            <FormInput label="password" isHidden={true} name="password"/>
+            <AuthInput label="username" isHidden={false} name="username"/>
+            <AuthInput label="password" isHidden={true} name="password"/>
             <SubmitButton text="sign in"/>
         </form>
     );

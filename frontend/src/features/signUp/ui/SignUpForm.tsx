@@ -1,5 +1,5 @@
 import styles from "./SignUpForm.module.scss"
-import {FormInput} from "@/shared/formInput"
+import {AuthInput} from "@/shared/authInput"
 import {useEffect, useState} from "react";
 import {SubmitButton} from "@/shared/submitButton";
 import {getDoesOwnerExist, registerNewOwner, registerNewUser} from "@/features/signUp";
@@ -47,10 +47,10 @@ export function SignUp() {
 
     return (
         <form className={`${styles.signUp} ${!doesOwnerExist ? styles.noOwner : ""}`} onSubmit={handleSubmit}>
-            <FormInput label="username" isHidden={false} name="login"/>
-            <FormInput label="password" isHidden={true} name="password"/>
+            <AuthInput label="username" isHidden={false} name="login"/>
+            <AuthInput label="password" isHidden={true} name="password"/>
             {!doesOwnerExist && <span className={styles.note}>You will be signed up as an owner!</span>}
-            {doesOwnerExist && <FormInput label="owner's password" isHidden={true} name="owners-password"/>}
+            {doesOwnerExist && <AuthInput label="owner's password" isHidden={true} name="owners-password"/>}
             {doesOwnerExist &&
                 <div className={styles.userType}>
                     <label>

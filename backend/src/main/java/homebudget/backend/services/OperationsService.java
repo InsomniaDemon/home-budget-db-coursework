@@ -22,4 +22,12 @@ public class OperationsService {
             throw new RuntimeException("CHANGE");
         }
     }
+
+    public void deleteOperation(Long id) {
+        try {
+            operationsRepository.deleteOperation(id);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
 }

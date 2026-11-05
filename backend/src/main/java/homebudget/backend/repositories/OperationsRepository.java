@@ -42,6 +42,20 @@ public class OperationsRepository {
         }
     }
 
+    public void deleteOperation(Long id) throws SQLException {
+        String sql = """
+                DELETE FROM operations
+                WHERE id = ?
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.execute();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
     public List<Operation> getOperationsList() throws SQLException {
         String sql = """
                 SELECT * FROM operations
@@ -58,7 +72,7 @@ public class OperationsRepository {
     public Operation mapRowToOperation(ResultSet resultSet) throws SQLException {
         return new Operation(
                 resultSet.getLong("id"),
-                resultSet.getLong("article_id"),
+                resultSet.getObject("article_id", Long.class),
                 resultSet.getLong("debit"),
                 resultSet.getLong("credit"),
                 resultSet.getString("create_date"),

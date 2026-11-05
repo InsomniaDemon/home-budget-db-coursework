@@ -9,15 +9,31 @@ import java.util.List;
 
 @Service
 public class BalancesService {
-    private final BalancesRepository BalancesRepository;
+    private final BalancesRepository balancesRepository;
 
-    public BalancesService(BalancesRepository BalancesRepository) {
-        this.BalancesRepository = BalancesRepository;
+    public BalancesService(BalancesRepository balancesRepository) {
+        this.balancesRepository = balancesRepository;
     }
 
     public List<Balance> getBalancesList() {
         try {
-            return BalancesRepository.getBalancesList();
+            return balancesRepository.getBalancesList();
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
+    public void deleteBalance(Long id) {
+        try {
+            balancesRepository.deleteBalance(id);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
+    public void deleteBalanceWithOperations(Long id) {
+        try {
+            balancesRepository.deleteBalanceWithOperations(id);
         } catch (SQLException e) {
             throw new RuntimeException("CHANGE");
         }

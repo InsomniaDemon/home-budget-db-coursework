@@ -1,5 +1,7 @@
 .submitButton {
-  width: 140px;
+  min-width: 108px;
+  width: fit-content;
+  padding: 0 1em;
   height: 48px;
   background-color: var(--dark-grey-hover);
   border: none;
