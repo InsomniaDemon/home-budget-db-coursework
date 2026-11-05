@@ -36,7 +36,7 @@ public class ArticlesRepository {
         }
     }
 
-    public List<Article> getArticles() throws SQLException {
+    public List<Article> getArticlesList() throws SQLException {
         String sql = """
                 SELECT * FROM articles
                 """;

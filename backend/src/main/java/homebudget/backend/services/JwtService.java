@@ -8,12 +8,8 @@ import java.time.Instant;
 @Service
 public class JwtService {
     private final JwtEncoder jwtEncoder;
-    private final JwtDecoder jwtDecoder;
 
-    public JwtService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
-        this.jwtEncoder = jwtEncoder;
-        this.jwtDecoder = jwtDecoder;
-    }
+    public JwtService(JwtEncoder jwtEncoder) {this.jwtEncoder = jwtEncoder;}
 
     public String generateAccessToken(String username, String role) {
         Instant now = Instant.now();
@@ -28,19 +24,5 @@ public class JwtService {
         return jwtEncoder
                 .encode(JwtEncoderParameters.from(claims))
                 .getTokenValue();
-    }
-
-    public String getRoleFromToken(String token) {
-        var jwt = jwtDecoder.decode(token);
-        return jwt.getClaimAsString("role");
-    }
-
-    public boolean isTokenValid(String token) {
-        try {
-            jwtDecoder.decode(token);
-            return true;
-        } catch (JwtException e) {
-            return false;
-        }
     }
 }

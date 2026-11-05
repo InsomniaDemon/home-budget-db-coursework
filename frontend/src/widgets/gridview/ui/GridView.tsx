@@ -1,6 +1,18 @@
 import styles from "./GridView.module.scss"
+import {useEffect, useState} from "react";
+import {getObjectTable} from "@/widgets/gridview";
+import {useAuth} from "@/entities/auth";
 
-export function GridView({headers, rows}: {headers: string[], rows: object[]}) {
+export function GridView({headers, path}: {headers: string[], path: string}) {
+    const [rows, setRows] = useState<object[]>([])
+    const {jwt, logout} = useAuth()
+
+    useEffect(() => {
+        getObjectTable(jwt, logout, path)
+            .then(setRows)
+            .catch(console.error)
+    }, [jwt, logout, path])
+
     return (
         <div className={styles.gridview}>
             <div className={styles.row}>

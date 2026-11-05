@@ -62,7 +62,7 @@ public class OperationsRepository {
                 resultSet.getLong("debit"),
                 resultSet.getLong("credit"),
                 resultSet.getString("create_date"),
-                resultSet.getLong("balance_id")
+                resultSet.getObject("balance_id", Long.class)
         );
     }
 
