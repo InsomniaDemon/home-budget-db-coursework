@@ -21,15 +21,15 @@ public class BalancesController {
         return balancesService.getBalancesList();
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('editor', 'owner')")
-    public void deleteBalance(@AuthenticationPrincipal Jwt jwt, @RequestBody Long id) {
+    public void deleteBalance(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
         balancesService.deleteBalance(id);
     }
 
-    @DeleteMapping("/ops")
+    @DeleteMapping("/ops/{id}")
     @PreAuthorize("hasAnyRole('editor', 'owner')")
-    public void deleteBalanceWithOperations(@AuthenticationPrincipal Jwt jwt, @RequestBody Long id) {
+    public void deleteBalanceWithOperations(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
         balancesService.deleteBalanceWithOperations(id);
     }
 }

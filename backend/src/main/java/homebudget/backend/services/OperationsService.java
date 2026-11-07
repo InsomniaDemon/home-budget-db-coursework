@@ -1,5 +1,6 @@
 package homebudget.backend.services;
 
+import homebudget.backend.dtos.requests.OperationRequest;
 import homebudget.backend.dtos.Operation;
 import homebudget.backend.repositories.OperationsRepository;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,25 @@ public class OperationsService {
         }
     }
 
+    public void insertNewOperation(OperationRequest operation) {
+        try {
+            operationsRepository.insertNewOperation(operation);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
     public void deleteOperation(Long id) {
         try {
             operationsRepository.deleteOperation(id);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
+    public void updateOperation(Long id, OperationRequest operation) {
+        try {
+            operationsRepository.updateOperation(id, operation);
         } catch (SQLException e) {
             throw new RuntimeException("CHANGE");
         }

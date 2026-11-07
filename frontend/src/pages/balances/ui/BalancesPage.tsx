@@ -1,12 +1,12 @@
 import {GridView} from "@/widgets/gridview";
+import {balances} from "@/entities/schema";
 
 
 export function BalancesPage() {
-    const headers: string[] = ["id", "create_date", "debit", "credit", "amount"]
 
     return (
         <div>
-            <GridView headers={headers} path="/balances" isEditable={false}/>
+            <GridView config={balances}/>
         </div>
     );
 }

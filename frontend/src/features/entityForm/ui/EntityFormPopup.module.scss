@@ -18,9 +18,9 @@
 
   .card {
     padding: 50px 60px;
+    min-height: 100px;
+    min-width: 100px;
     background-color: var(--dark-grey);
-    width: 250px;
-    height: 150px;
     border-radius: 30px;
     position: fixed;
     display: flex;

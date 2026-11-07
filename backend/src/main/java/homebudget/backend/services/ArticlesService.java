@@ -1,6 +1,7 @@
 package homebudget.backend.services;
 
 import homebudget.backend.dtos.Article;
+import homebudget.backend.dtos.requests.ArticleRequest;
 import homebudget.backend.repositories.ArticlesRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,17 @@ public class ArticlesService {
         }
     }
 
-    public void addNewArticle(String name) {
+    public void addNewArticle(ArticleRequest articleRequest) {
         try {
-            articlesRepository.insertNewArticle(name);
+            articlesRepository.insertNewArticle(articleRequest);
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
+    public void updateArticle(Long id, ArticleRequest articleRequest) {
+        try {
+            articlesRepository.updateArticle(id, articleRequest);
         } catch (SQLException e) {
             throw new RuntimeException("CHANGE");
         }

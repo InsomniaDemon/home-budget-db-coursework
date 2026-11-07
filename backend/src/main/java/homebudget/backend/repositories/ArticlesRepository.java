@@ -1,6 +1,7 @@
 package homebudget.backend.repositories;
 
 import homebudget.backend.dtos.Article;
+import homebudget.backend.dtos.requests.ArticleRequest;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
@@ -20,14 +21,14 @@ public class ArticlesRepository {
         this.dataSource = dataSource;
     }
 
-    public void insertNewArticle(String name) throws SQLException {
+    public void insertNewArticle(ArticleRequest articleRequest) throws SQLException {
         String sql = """
                 INSERT INTO articles(name)
                 VALUES (?)
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, name);
+            preparedStatement.setString(1, articleRequest.name());
             preparedStatement.execute();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
@@ -37,6 +38,7 @@ public class ArticlesRepository {
     public List<Article> getArticlesList() throws SQLException {
         String sql = """
                 SELECT * FROM articles
+                ORDER BY id
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -47,7 +49,7 @@ public class ArticlesRepository {
         }
     }
 
-    public void updateArticle(Long id, String newName) throws SQLException {
+    public void updateArticle(Long id, ArticleRequest articleRequest) throws SQLException {
         String sql = """
                 UPDATE articles
                 SET name = ?
@@ -55,9 +57,9 @@ public class ArticlesRepository {
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, newName);
+            preparedStatement.setString(1, articleRequest.name());
             preparedStatement.setLong(2, id);
-            preparedStatement.executeUpdate();
+            preparedStatement.execute();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }

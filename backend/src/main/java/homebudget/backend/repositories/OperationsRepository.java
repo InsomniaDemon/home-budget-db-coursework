@@ -1,6 +1,6 @@
 package homebudget.backend.repositories;
 
-import homebudget.backend.dtos.NewOperation;
+import homebudget.backend.dtos.requests.OperationRequest;
 import homebudget.backend.dtos.Operation;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,21 +21,18 @@ public class OperationsRepository {
         this.dataSource = dataSource;
     }
 
-    public Long insertNewOperation(NewOperation newOperation) throws SQLException {
+    public void insertNewOperation(OperationRequest operationRequest) throws SQLException {
         String sql = """
                 INSERT INTO operations(article_id, debit, credit, create_date)
-                VALUES (?, ?, ?, ?, NULL)
+                VALUES (?, ?, ?, ?)
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1, newOperation.articleId());
-            preparedStatement.setLong(2, newOperation.debit());
-            preparedStatement.setLong(3, newOperation.credit());
-            preparedStatement.setObject(4, newOperation.createDate());
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                resultSet.next();
-                return resultSet.getLong(1);
-            }
+            preparedStatement.setLong(1, operationRequest.articleId());
+            preparedStatement.setLong(2, operationRequest.debit());
+            preparedStatement.setLong(3, operationRequest.credit());
+            preparedStatement.setObject(4, operationRequest.createDate());
+            preparedStatement.execute();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }
@@ -59,11 +55,34 @@ public class OperationsRepository {
     public List<Operation> getOperationsList() throws SQLException {
         String sql = """
                 SELECT * FROM operations
+                ORDER BY id
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             return mapRowToOperationsList(resultSet);
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    public void updateOperation(Long id, OperationRequest operationRequest) throws SQLException {
+        String sql = """
+                UPDATE operations
+                SET article_id = ?,
+                    debit = ?,
+                    credit = ?,
+                    create_date = ?
+                WHERE id = ?
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, operationRequest.articleId());
+            preparedStatement.setLong(2, operationRequest.debit());
+            preparedStatement.setLong(3, operationRequest.credit());
+            preparedStatement.setObject(4, operationRequest.createDate());
+            preparedStatement.setLong(5, id);
+            preparedStatement.execute();
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }

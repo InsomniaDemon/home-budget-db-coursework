@@ -1,6 +1,8 @@
+import type {Row} from "@/entities/schema";
+
 const BASE_URL = "http://localhost:8080/api";
 
-export async function getObjectTable(jwt: string, logout: () => void, path: string): Promise<object[]> {
+export async function getObjectTable(jwt: string, logout: () => void, path: string): Promise<Row[]> {
     const response = await fetch(`${BASE_URL}${path}`, {
         method: 'GET',
         headers: {
