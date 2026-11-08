@@ -2,7 +2,11 @@ package homebudget.backend.services;
 
 import homebudget.backend.dtos.schema.Article;
 import homebudget.backend.dtos.requests.ArticleRequest;
+import homebudget.backend.exceptions.AppException;
+import homebudget.backend.exceptions.DeletingIncludedOperationException;
+import homebudget.backend.exceptions.UnknownAppException;
 import homebudget.backend.repositories.ArticlesRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +25,7 @@ public class ArticlesService {
         try {
             return articlesRepository.getArticlesList();
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            throw new UnknownAppException(e);
         }
     }
 
@@ -29,7 +33,10 @@ public class ArticlesService {
         try {
             articlesRepository.insertNewArticle(articleRequest);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            if ("23505".equals(e.getSQLState())) {
+                throw new AppException("ARTICLE_ALREADY_EXIST", HttpStatus.CONFLICT, "Article with specified name already exist", e);
+            }
+            throw new UnknownAppException(e);
         }
     }
 
@@ -37,7 +44,10 @@ public class ArticlesService {
         try {
             articlesRepository.updateArticle(id, articleRequest);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            if ("23505".equals(e.getSQLState())) {
+                throw new AppException("ARTICLE_ALREADY_EXIST", HttpStatus.CONFLICT, "Article with specified name already exist", e);
+            }
+            throw new UnknownAppException(e);
         }
     }
 
@@ -45,7 +55,7 @@ public class ArticlesService {
         try {
             articlesRepository.deleteArticle(id);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            throw new UnknownAppException(e);
         }
     }
 
@@ -54,7 +64,10 @@ public class ArticlesService {
         try {
             articlesRepository.deleteArticleWithOperations(id);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            if ("HB002".equals(e.getSQLState())) {
+                throw new DeletingIncludedOperationException("Article was not deleted: some of its operations are already included in a balance", e);
+            }
+            throw new UnknownAppException(e);
         }
     }
 }

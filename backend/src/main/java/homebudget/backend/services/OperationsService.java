@@ -3,6 +3,7 @@ package homebudget.backend.services;
 import homebudget.backend.dtos.requests.OperationRequest;
 import homebudget.backend.dtos.schema.Operation;
 import homebudget.backend.exceptions.AppException;
+import homebudget.backend.exceptions.DeletingIncludedOperationException;
 import homebudget.backend.exceptions.LoginAlreadyExistsException;
 import homebudget.backend.exceptions.UnknownAppException;
 import homebudget.backend.repositories.OperationsRepository;
@@ -41,7 +42,7 @@ public class OperationsService {
             operationsRepository.deleteOperation(id);
         } catch (SQLException e) {
             if ("HB002".equals(e.getSQLState())) {
-                throw new AppException("DELETING_INCLUDED_OPERATION", HttpStatus.CONFLICT, "Unable to delete operation that is included into balance");
+                throw new DeletingIncludedOperationException("Unable to delete operation that is included into balance", e);
             }
             throw new UnknownAppException(e);
         }
@@ -52,7 +53,7 @@ public class OperationsService {
             operationsRepository.updateOperation(id, operation);
         } catch (SQLException e) {
             if ("HB001".equals(e.getSQLState())) {
-                throw new AppException("UPDATING_INCLUDED_OPERATION", HttpStatus.CONFLICT, "Unable to update debit or credit of operation that is included into balance");
+                throw new AppException("UPDATING_INCLUDED_OPERATION", HttpStatus.CONFLICT, "Unable to update debit or credit of operation that is included into balance", e);
             }
             throw new UnknownAppException(e);
         }

@@ -36,6 +36,6 @@ public class BalancesController {
     @PostMapping("")
     @PreAuthorize("hasAnyRole('editor', 'owner')")
     public void postBalance(@AuthenticationPrincipal Jwt jwt) {
-        balancesService.insertNewOperation();
+        balancesService.insertNewBalance();
     }
 }

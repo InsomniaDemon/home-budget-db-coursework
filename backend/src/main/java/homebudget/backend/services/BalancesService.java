@@ -1,7 +1,11 @@
 package homebudget.backend.services;
 
 import homebudget.backend.dtos.schema.Balance;
+import homebudget.backend.exceptions.AppException;
+import homebudget.backend.exceptions.DeletingIncludedOperationException;
+import homebudget.backend.exceptions.UnknownAppException;
 import homebudget.backend.repositories.BalancesRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,15 +24,18 @@ public class BalancesService {
         try {
             return balancesRepository.getBalancesList();
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            throw new UnknownAppException(e);
         }
     }
 
-    public void insertNewOperation() {
+    public void insertNewBalance() {
         try {
             balancesRepository.insertNewBalance();
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            if ("HB003".equals(e.getSQLState())) {
+                throw new AppException("DEBIT_AND_CREDIT_EQUALS_ZERO", HttpStatus.CONFLICT, "Balance was not created: sum(debit) and sum(credit) equals zero", e);
+            }
+            throw new UnknownAppException(e);
         }
     }
 
@@ -36,7 +43,7 @@ public class BalancesService {
         try {
             balancesRepository.deleteBalance(id);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            throw new UnknownAppException(e);
         }
     }
 
@@ -45,7 +52,7 @@ public class BalancesService {
         try {
             balancesRepository.deleteBalanceWithOperations(id);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            throw new UnknownAppException(e);
         }
     }
 }
