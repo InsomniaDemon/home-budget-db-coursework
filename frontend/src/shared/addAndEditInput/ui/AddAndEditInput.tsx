@@ -4,7 +4,11 @@ export function AddAndEditInput({label, name, type = "text", value = ""}: {label
 
     return (
         <label className={styles.addAndEditInput}>
-            <span>{label}:</span>
+            <div className={styles.spans}>
+                <span>{label}</span>
+                <span className={styles.type}>${type}</span>
+            </div>
+            <span>:</span>
             <input name={name} type={type} defaultValue={value}/>
         </label>
     );

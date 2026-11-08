@@ -23,6 +23,14 @@ public class BalancesService {
         }
     }
 
+    public void insertNewOperation() {
+        try {
+            balancesRepository.insertNewBalance();
+        } catch (SQLException e) {
+            throw new RuntimeException("CHANGE");
+        }
+    }
+
     public void deleteBalance(Long id) {
         try {
             balancesRepository.deleteBalance(id);

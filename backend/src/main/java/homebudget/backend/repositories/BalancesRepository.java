@@ -4,6 +4,7 @@ import homebudget.backend.dtos.Balance;
 import homebudget.backend.dtos.Balance;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -19,6 +20,19 @@ public class BalancesRepository {
 
     public BalancesRepository(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    @Transactional
+    public void insertNewBalance() throws SQLException {
+        String sql = """
+                CALL insert_new_balance();
+                """;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.execute();
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
     }
 
     public void deleteBalance(Long id) throws SQLException {

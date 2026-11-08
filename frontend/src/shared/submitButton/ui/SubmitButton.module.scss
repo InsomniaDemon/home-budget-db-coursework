@@ -3,7 +3,7 @@
   width: fit-content;
   padding: 0 1em;
   height: 48px;
-  background-color: var(--dark-grey-hover);
+  background-color: var(--dark-grey-hover) !important;
   border: none;
   border-radius: 10px;
   color: var(--white);
@@ -12,7 +12,7 @@
   transition: 0.3s ease;
 
   &:hover {
-    background-color: var(--black);
+    background-color: var(--black) !important;
     color: white;
     cursor: pointer;
   }

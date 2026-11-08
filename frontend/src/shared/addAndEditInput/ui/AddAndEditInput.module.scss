@@ -3,13 +3,24 @@
   align-items: center;
   gap: 8px;
   color: var(--white);
-  font-size: 20px;
+  font-size: 24px;
+
+  .spans {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .type {
+      font-size: 20px;
+      opacity: 0.8;
+    }
+  }
 
   input {
     font-size: 20px;
     padding: 0 1em;
-    width: 180px;
-    height: 32px;
+    width: 240px;
+    height: 60px;
     background-color: var(--dark-grey-hover);
     border: none;
     border-radius: 10px;

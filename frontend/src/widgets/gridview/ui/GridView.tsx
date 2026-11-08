@@ -29,7 +29,11 @@ export function GridView({config}: {config: EntityConfig}) {
             {form && <EntityFormPopup config={config} row={form.row} close={() => setForm(null)} onSaved={reload}/>}
             <div className={styles.table}>
                 <div className={styles.row}>
-                    {config.fields.map((field) => <span key={field.name} className={`${styles.cell} ${styles.header}`}>{field.name}</span>)}
+                    {config.fields.map((field) =>
+                        <div key={field.name} className={`${styles.cell} ${styles.header}`}>
+                            <span>{field.name}</span>
+                            <span className={styles.type}>${field.type}</span>
+                        </div>)}
                 </div>
                 {rows.map((row, index) => <div className={styles.rowAndButtons} key={"row-and-button-" + index}>
                         <div className={styles.row}>

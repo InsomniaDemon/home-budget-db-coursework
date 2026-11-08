@@ -1,6 +1,7 @@
 package homebudget.backend.controllers;
 
 import homebudget.backend.dtos.Balance;
+import homebudget.backend.dtos.requests.OperationRequest;
 import homebudget.backend.services.BalancesService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,5 +32,11 @@ public class BalancesController {
     @PreAuthorize("hasAnyRole('editor', 'owner')")
     public void deleteBalanceWithOperations(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
         balancesService.deleteBalanceWithOperations(id);
+    }
+
+    @PostMapping("")
+    @PreAuthorize("hasAnyRole('editor', 'owner')")
+    public void postBalance(@AuthenticationPrincipal Jwt jwt) {
+        balancesService.insertNewOperation();
     }
 }
