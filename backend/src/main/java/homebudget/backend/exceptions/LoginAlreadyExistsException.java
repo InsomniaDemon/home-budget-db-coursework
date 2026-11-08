@@ -8,6 +8,6 @@ public class LoginAlreadyExistsException extends AppException {
     }
 
     public LoginAlreadyExistsException(String message, Throwable cause) {
-        super("LOGIN_ALREADY_EXISTS", HttpStatus.UNAUTHORIZED, message, cause);
+        super("LOGIN_ALREADY_EXISTS", HttpStatus.CONFLICT, message, cause);
     }
 }

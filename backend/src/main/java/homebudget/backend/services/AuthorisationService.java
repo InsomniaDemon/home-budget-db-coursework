@@ -36,6 +36,9 @@ public class AuthorisationService {
     }
 
     public String registerNewOwner(RegNewOwnerRequest regNewOwnerRequest) {
+        if (doesOwnerExist()) {
+            throw new AppException("SECOND_OWNER_FORBIDDEN", HttpStatus.FORBIDDEN, "Unable to create second owner");
+        }
         String passwordHash = passwordEncoder.encode(regNewOwnerRequest.password());
         try {
             usersRepository.insertNewOwner(regNewOwnerRequest.username(), passwordHash);
@@ -46,6 +49,9 @@ public class AuthorisationService {
     }
 
     public String registerNewUser(RegNewUserRequest regNewUserRequest) {
+        if (regNewUserRequest.role().equals("owner")) {
+            throw new AppException("SECOND_OWNER_FORBIDDEN", HttpStatus.FORBIDDEN, "Unable to create second owner");
+        }
         try {
             validatePassword(regNewUserRequest.ownersPassword(), getOwnersPasswordHash());
             String passwordHash = passwordEncoder.encode(regNewUserRequest.password());
