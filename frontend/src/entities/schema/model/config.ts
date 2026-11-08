@@ -3,6 +3,7 @@ export type FieldType = "text" | "number" | "datetime"
 
 export interface FieldConfig {
     name: string
+    label: string
     type: FieldType
     inForm?: boolean
 }
@@ -18,25 +19,30 @@ export interface EntityConfig {
 export const articles: EntityConfig = {
     path: "/articles", canAdd: true, canEdit: true, deleteWithOps: true,
     fields: [
-        {name: "id", type: "number", inForm: false},
-        {name: "name", type: "text"},
+        {name: "id", label: "id",type: "number", inForm: false},
+        {name: "name", label: "name",type: "text"},
     ],
 }
 
 export const operations: EntityConfig = {
     path: "/op", canAdd: true, canEdit: true,
     fields: [
-        {name: "id", type: "number", inForm: false},
-        {name: "articleId", type: "number"},
-        {name: "debit", type: "number"},
-        {name: "credit", type: "number"},
-        {name: "createDate", type: "datetime"},
-        {name: "balanceId", type: "number", inForm: false},
+        {name: "id", label: "id",type: "number", inForm: false},
+        {name: "articleId", label: "articleId",type: "number"},
+        {name: "debit", label: "debit",type: "number"},
+        {name: "credit", label: "credit",type: "number"},
+        {name: "createDate", label: "createDate UTC",type: "datetime"},
+        {name: "balanceId", label: "balanceId",type: "number", inForm: false},
     ],
 }
 
 export const balances: EntityConfig = {
     path: "/balances", canAdd: false, canEdit: false,
-    fields: ["id", "createDate", "debit", "credit", "amount"]
-        .map(n => ({name: n, label: n, type: "number" as const, inForm: false})),
+    fields: [
+        {name: "id", label: "id",type: "number", inForm: false},
+        {name: "createDate", label: "createDate UTC",type: "datetime", inForm: false},
+        {name: "debit", label: "debit",type: "number", inForm: false},
+        {name: "credit", label: "credit",type: "number", inForm: false},
+        {name: "amount", label: "amount",type: "number", inForm: false},
+    ],
 }

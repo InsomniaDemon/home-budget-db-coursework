@@ -1,7 +1,6 @@
 package homebudget.backend.repositories;
 
-import homebudget.backend.dtos.Balance;
-import homebudget.backend.dtos.Balance;
+import homebudget.backend.dtos.schema.Balance;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +70,10 @@ public class BalancesRepository {
 
     public List<Balance> getBalancesList() throws SQLException {
         String sql = """
-                SELECT * FROM balance
+                SELECT id, to_char(create_date, 'YYYY-MM-DD HH24:MI') AS create_date,
+                       debit, credit, amount
+                FROM balance
+                ORDER BY id
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql);

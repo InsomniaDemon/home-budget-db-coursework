@@ -40,11 +40,13 @@ export function EntityFormPopup({config, row, close, onSaved}:
                 <button className={styles.cross} onClick={close}>
                     <img src={cross} alt="cross image"/>
                 </button>
-                <div className={styles.inputs}>
-                    {fields.map(field =>
-                        <AddAndEditInput key={field.name} label={field.name} name={field.name} type={field.type === "datetime" ? "datetime-local" : field.type} value={row ? toInputValue(field, row[field.name]) : ""}/>
-                    )}
-                </div>
+                {fields.length !== 0 &&
+                    <div className={styles.inputs}>
+                        {fields.map(field =>
+                            <AddAndEditInput key={field.name} label={field.label} name={field.name} type={field.type === "datetime" ? "datetime-local" : field.type} value={row ? toInputValue(field, row[field.name]) : ""}/>
+                        )}
+                    </div>
+                }
                 <SubmitButton text={row ? "edit" : "add"}/>
             </form>
         </div>

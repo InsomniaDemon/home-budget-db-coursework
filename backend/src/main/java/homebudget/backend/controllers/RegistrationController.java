@@ -2,28 +2,28 @@ package homebudget.backend.controllers;
 
 import homebudget.backend.dtos.requests.RegNewOwnerRequest;
 import homebudget.backend.dtos.requests.RegNewUserRequest;
-import homebudget.backend.services.RegistrationService;
+import homebudget.backend.services.AuthorisationService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/reg")
 public class RegistrationController {
-    private final RegistrationService registrationService;
+    private final AuthorisationService authorisationService;
 
-    public RegistrationController(RegistrationService registrationService) {this.registrationService = registrationService;}
+    public RegistrationController(AuthorisationService authorisationService) {this.authorisationService = authorisationService;}
 
     @GetMapping("/owner")
     public boolean isOwnerExist() {
-        return registrationService.isOwnerExists();
+        return authorisationService.doesOwnerExist();
     }
 
     @PostMapping("/owner")
     public String registerOwner(@RequestBody RegNewOwnerRequest regNewOwnerRequest) {
-        return registrationService.registerNewOwner(regNewOwnerRequest);
+        return authorisationService.registerNewOwner(regNewOwnerRequest);
     }
 
     @PostMapping("")
     public String registerUser(@RequestBody RegNewUserRequest regNewUserRequest) {
-        return registrationService.registerNewUser(regNewUserRequest);
+        return authorisationService.registerNewUser(regNewUserRequest);
     }
 }

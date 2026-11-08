@@ -8,7 +8,7 @@
   .spans {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
 
     .type {
       font-size: 20px;
@@ -31,17 +31,19 @@
       outline: 2px solid var(--white);
     }
 
-    /* Chrome, Safari, Edge, Opera */
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
 
-    /* Firefox */
     &[type="number"] {
       -moz-appearance: textfield;
       appearance: textfield;
+    }
+
+    &[type="datetime-local"]::-webkit-calendar-picker-indicator {
+      display: none;
     }
   }
 }

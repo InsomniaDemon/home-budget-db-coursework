@@ -1,6 +1,6 @@
 package homebudget.backend.services;
 
-import homebudget.backend.dtos.Balance;
+import homebudget.backend.dtos.schema.Balance;
 import homebudget.backend.repositories.BalancesRepository;
 import org.springframework.stereotype.Service;
 

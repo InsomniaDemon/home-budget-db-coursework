@@ -31,7 +31,7 @@ export function GridView({config}: {config: EntityConfig}) {
                 <div className={styles.row}>
                     {config.fields.map((field) =>
                         <div key={field.name} className={`${styles.cell} ${styles.header}`}>
-                            <span>{field.name}</span>
+                            <span>{field.label}</span>
                             <span className={styles.type}>${field.type}</span>
                         </div>)}
                 </div>

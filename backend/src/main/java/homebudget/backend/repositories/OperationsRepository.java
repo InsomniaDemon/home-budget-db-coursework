@@ -1,7 +1,7 @@
 package homebudget.backend.repositories;
 
 import homebudget.backend.dtos.requests.OperationRequest;
-import homebudget.backend.dtos.Operation;
+import homebudget.backend.dtos.schema.Operation;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
@@ -54,7 +54,9 @@ public class OperationsRepository {
 
     public List<Operation> getOperationsList() throws SQLException {
         String sql = """
-                SELECT * FROM operations
+                SELECT id, article_id, debit, credit,
+                       to_char(create_date, 'YYYY-MM-DD HH24:MI') AS create_date,
+                       balance_id FROM operations
                 ORDER BY id
                 """;
         Connection connection = DataSourceUtils.getConnection(dataSource);

@@ -1,7 +1,7 @@
 package homebudget.backend.controllers;
 
 import homebudget.backend.dtos.requests.OperationRequest;
-import homebudget.backend.dtos.Operation;
+import homebudget.backend.dtos.schema.Operation;
 import homebudget.backend.services.OperationsService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

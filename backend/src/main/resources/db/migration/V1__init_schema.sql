@@ -5,7 +5,7 @@ CREATE TABLE articles (
 
 CREATE TABLE balance (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT date_trunc('second', CURRENT_TIMESTAMP),
+    create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT date_trunc('minute', CURRENT_TIMESTAMP),
     debit BIGINT NOT NULL CHECK (debit >= 0),
     credit BIGINT NOT NULL CHECK (credit >= 0),
     amount BIGINT NOT NULL

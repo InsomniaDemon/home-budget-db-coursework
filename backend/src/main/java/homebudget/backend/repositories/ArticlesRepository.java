@@ -1,6 +1,6 @@
 package homebudget.backend.repositories;
 
-import homebudget.backend.dtos.Article;
+import homebudget.backend.dtos.schema.Article;
 import homebudget.backend.dtos.requests.ArticleRequest;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;

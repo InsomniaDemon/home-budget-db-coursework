@@ -1,7 +1,7 @@
 package homebudget.backend.services;
 
 import homebudget.backend.dtos.requests.OperationRequest;
-import homebudget.backend.dtos.Operation;
+import homebudget.backend.dtos.schema.Operation;
 import homebudget.backend.repositories.OperationsRepository;
 import org.springframework.stereotype.Service;
 

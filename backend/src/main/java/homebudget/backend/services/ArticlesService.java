@@ -1,6 +1,6 @@
 package homebudget.backend.services;
 
-import homebudget.backend.dtos.Article;
+import homebudget.backend.dtos.schema.Article;
 import homebudget.backend.dtos.requests.ArticleRequest;
 import homebudget.backend.repositories.ArticlesRepository;
 import org.springframework.stereotype.Service;

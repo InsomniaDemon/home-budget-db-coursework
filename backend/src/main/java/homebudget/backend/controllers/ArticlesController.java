@@ -1,6 +1,6 @@
 package homebudget.backend.controllers;
 
-import homebudget.backend.dtos.Article;
+import homebudget.backend.dtos.schema.Article;
 import homebudget.backend.dtos.requests.ArticleRequest;
 import homebudget.backend.services.ArticlesService;
 import org.springframework.security.access.prepost.PreAuthorize;
