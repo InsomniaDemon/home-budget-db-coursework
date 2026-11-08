@@ -1,3 +1,5 @@
+import {toApiError} from "@/shared/apiError";
+
 const BASE_URL = "http://localhost:8080/api";
 
 export async function getDoesOwnerExist(): Promise<boolean> {
@@ -9,7 +11,7 @@ export async function getDoesOwnerExist(): Promise<boolean> {
     })
 
     if (!response.ok) {
-        throw new Error(`Failed get info about owner existance: ${response.status}`)
+        throw await toApiError(response)
     }
 
     return await response.json();
@@ -25,7 +27,7 @@ export async function registerNewOwner(username: string, password: string): Prom
     })
 
     if (!response.ok) {
-        throw new Error(`Failed to register new owner: ${response.status}`)
+        throw await toApiError(response)
     }
 
     return await response.text();
@@ -41,7 +43,7 @@ export async function registerNewUser(username: string, password: string, role: 
     })
 
     if (!response.ok) {
-        throw new Error(`Failed to register new user: ${response.status}`)
+        throw await toApiError(response)
     }
 
     return await response.text();

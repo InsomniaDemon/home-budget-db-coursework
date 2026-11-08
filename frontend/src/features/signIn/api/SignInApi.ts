@@ -1,3 +1,5 @@
+import {toApiError} from "@/shared/apiError";
+
 const BASE_URL = "http://localhost:8080/api";
 
 export async function signInUser(username: string, password: string): Promise<string> {
@@ -10,7 +12,7 @@ export async function signInUser(username: string, password: string): Promise<st
     })
 
     if (!response.ok) {
-        throw new Error(`Failed to sign in user: ${response.status}`)
+        throw await toApiError(response)
     }
 
     return await response.text();

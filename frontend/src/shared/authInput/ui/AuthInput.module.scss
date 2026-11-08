@@ -4,6 +4,7 @@
   gap: 8px;
   color: var(--white);
   font-size: 20px;
+  position: relative;
 
   span {
     margin-left: 8px;
@@ -23,6 +24,17 @@
     &:focus {
       outline: 2px solid var(--white);
     }
+  }
+
+  .errorInput {
+    outline: 2px solid var(--purple);
+  }
+
+  .error {
+    position: absolute;
+    bottom: -30px;
+    left: 5px;
+    color: var(--purple);
   }
 
   input:-webkit-autofill,

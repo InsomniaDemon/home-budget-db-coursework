@@ -61,7 +61,7 @@ public class AuthorisationService {
             throw new InvalidCredentialsException("Incorrect owner's password", e);
         } catch (SQLException e) {
             if ("23505".equals(e.getSQLState())) {
-                throw new LoginAlreadyExistsException("User with specified login already exists", e);
+                throw new LoginAlreadyExistsException("Username already taken", e);
             }
             throw new AppException("UNKNOWN", HttpStatus.INTERNAL_SERVER_ERROR, "unknown exception", e);
         }
