@@ -80,20 +80,18 @@ public class ArticlesRepository {
     }
 
     public void deleteArticleWithOperations(Long id) throws SQLException {
-        String sql = """
-                BEGIN;
-                    DELETE FROM operations
-                    WHERE article_id = ?;
-                
-                    DELETE FROM articles
-                    WHERE id = ?;
-                COMMIT;
-                """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.setLong(2, id);
-            preparedStatement.execute();
+        try {
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "DELETE FROM operations WHERE article_id = ?")) {
+                ps.setLong(1, id);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "DELETE FROM articles WHERE id = ?")) {
+                ps.setLong(1, id);
+                ps.executeUpdate();
+            }
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }

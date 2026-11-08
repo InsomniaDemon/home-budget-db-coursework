@@ -2,7 +2,11 @@ package homebudget.backend.services;
 
 import homebudget.backend.dtos.requests.OperationRequest;
 import homebudget.backend.dtos.schema.Operation;
+import homebudget.backend.exceptions.AppException;
+import homebudget.backend.exceptions.LoginAlreadyExistsException;
+import homebudget.backend.exceptions.UnknownAppException;
 import homebudget.backend.repositories.OperationsRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -16,19 +20,19 @@ public class OperationsService {
         this.operationsRepository = operationsRepository;
     }
 
-    public List<Operation> getOperationsList() {
-        try {
-            return operationsRepository.getOperationsList();
-        } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
-        }
-    }
-
     public void insertNewOperation(OperationRequest operation) {
         try {
             operationsRepository.insertNewOperation(operation);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            throw new UnknownAppException(e);
+        }
+    }
+
+    public List<Operation> getOperationsList() {
+        try {
+            return operationsRepository.getOperationsList();
+        } catch (SQLException e) {
+            throw new UnknownAppException(e);
         }
     }
 
@@ -36,7 +40,10 @@ public class OperationsService {
         try {
             operationsRepository.deleteOperation(id);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            if ("HB002".equals(e.getSQLState())) {
+                throw new AppException("DELETING_INCLUDED_OPERATION", HttpStatus.CONFLICT, "Unable to delete operation that is included into balance");
+            }
+            throw new UnknownAppException(e);
         }
     }
 
@@ -44,7 +51,10 @@ public class OperationsService {
         try {
             operationsRepository.updateOperation(id, operation);
         } catch (SQLException e) {
-            throw new RuntimeException("CHANGE");
+            if ("HB001".equals(e.getSQLState())) {
+                throw new AppException("UPDATING_INCLUDED_OPERATION", HttpStatus.CONFLICT, "Unable to update debit or credit of operation that is included into balance");
+            }
+            throw new UnknownAppException(e);
         }
     }
 }

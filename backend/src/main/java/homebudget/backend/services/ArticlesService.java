@@ -4,6 +4,7 @@ import homebudget.backend.dtos.schema.Article;
 import homebudget.backend.dtos.requests.ArticleRequest;
 import homebudget.backend.repositories.ArticlesRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -48,6 +49,7 @@ public class ArticlesService {
         }
     }
 
+    @Transactional
     public void deleteArticleWithOperations(Long id) {
         try {
             articlesRepository.deleteArticleWithOperations(id);

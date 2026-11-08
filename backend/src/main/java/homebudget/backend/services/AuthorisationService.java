@@ -7,6 +7,7 @@ import homebudget.backend.dtos.requests.RegNewUserRequest;
 import homebudget.backend.exceptions.AppException;
 import homebudget.backend.exceptions.InvalidCredentialsException;
 import homebudget.backend.exceptions.LoginAlreadyExistsException;
+import homebudget.backend.exceptions.UnknownAppException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -31,7 +32,7 @@ public class AuthorisationService {
         try {
             return !usersRepository.isUsersEmpty();
         } catch (SQLException e) {
-            throw new AppException("UNKNOWN", HttpStatus.INTERNAL_SERVER_ERROR, "unknown exception", e);
+            throw new UnknownAppException(e);
         }
     }
 
@@ -44,7 +45,7 @@ public class AuthorisationService {
             usersRepository.insertNewOwner(regNewOwnerRequest.username(), passwordHash);
             return jwtService.generateAccessToken(regNewOwnerRequest.username(), "owner");
         } catch (SQLException e) {
-            throw new AppException("UNKNOWN", HttpStatus.INTERNAL_SERVER_ERROR, "unknown exception", e);
+            throw new UnknownAppException(e);
         }
     }
 
@@ -63,7 +64,7 @@ public class AuthorisationService {
             if ("23505".equals(e.getSQLState())) {
                 throw new LoginAlreadyExistsException("Username already taken", e);
             }
-            throw new AppException("UNKNOWN", HttpStatus.INTERNAL_SERVER_ERROR, "unknown exception", e);
+            throw new UnknownAppException(e);
         }
     }
 
@@ -71,7 +72,7 @@ public class AuthorisationService {
         try {
             return usersRepository.getOwnersPasswordHash();
         } catch (SQLException e) {
-            throw new AppException("UNKNOWN", HttpStatus.INTERNAL_SERVER_ERROR, "unknown exception", e);
+            throw new UnknownAppException(e);
         }
     }
 
@@ -84,8 +85,7 @@ public class AuthorisationService {
             if ("24000".equals(e.getSQLState())) {
                 throw new InvalidCredentialsException("Incorrect password or username", e);
             }
-
-            throw new AppException("UNKNOWN", HttpStatus.INTERNAL_SERVER_ERROR, "unknown exception", e);
+            throw new UnknownAppException(e);
         }
     }
 

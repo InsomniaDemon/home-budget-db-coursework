@@ -4,7 +4,8 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
     IF OLD.balance_id IS NOT NULL AND (NEW.debit IS DISTINCT FROM OLD.debit OR NEW.credit IS DISTINCT FROM OLD.credit)
-        THEN RETURN NULL;
+        THEN RAISE EXCEPTION 'Debit and credit cannot be changed: operation is already included in a balance'
+            USING ERRCODE = 'HB001';
     END IF;
 
     RETURN NEW;
@@ -21,7 +22,8 @@ CREATE FUNCTION trg_op_del_fn()
 AS $$
 BEGIN
     IF OLD.balance_id IS NOT NULL
-        THEN RETURN NULL;
+        THEN RAISE EXCEPTION 'Operation is already included in a balance and cannot be deleted'
+        USING ERRCODE = 'HB002';
     END IF;
 
     RETURN OLD;
@@ -38,7 +40,8 @@ CREATE FUNCTION trg_balance_ins_fn()
 AS $$
 BEGIN
     IF COALESCE(NEW.debit, 0) <= 0 AND COALESCE(NEW.credit, 0) <= 0
-        THEN RETURN NULL;
+        THEN RAISE EXCEPTION 'Balance must have a positive debit or credit'
+        USING ERRCODE = 'HB003';
     END IF;
 
     RETURN NEW;

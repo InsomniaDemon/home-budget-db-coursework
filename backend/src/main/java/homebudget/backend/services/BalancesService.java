@@ -3,6 +3,7 @@ package homebudget.backend.services;
 import homebudget.backend.dtos.schema.Balance;
 import homebudget.backend.repositories.BalancesRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -39,6 +40,7 @@ public class BalancesService {
         }
     }
 
+    @Transactional
     public void deleteBalanceWithOperations(Long id) {
         try {
             balancesRepository.deleteBalanceWithOperations(id);

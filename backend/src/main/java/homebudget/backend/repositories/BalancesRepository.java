@@ -49,20 +49,26 @@ public class BalancesRepository {
     }
 
     public void deleteBalanceWithOperations(Long id) throws SQLException {
-        String sql = """
-                BEGIN;
-                    DELETE FROM operations
-                    WHERE balance_id = ?;
-                
-                    DELETE FROM balance
-                    WHERE id = ?;
-                COMMIT;
-                """;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.setLong(2, id);
-            preparedStatement.execute();
+        try {
+            List<Long> opIds = new ArrayList<>();
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "SELECT id FROM operations WHERE balance_id = ?")) {
+                ps.setLong(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) opIds.add(rs.getLong(1));
+                }
+            }
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "DELETE FROM balance WHERE id = ?")) {
+                ps.setLong(1, id);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "DELETE FROM operations WHERE id = ANY(?)")) {
+                ps.setArray(1, connection.createArrayOf("bigint", opIds.toArray()));
+                ps.executeUpdate();
+            }
         } finally {
             DataSourceUtils.releaseConnection(connection, dataSource);
         }
