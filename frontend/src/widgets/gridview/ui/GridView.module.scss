@@ -21,10 +21,11 @@
         position: absolute;
         top: 0;
         right: -100px;
-        height: 34px;
+        height: 100%;
         width: 80px;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
       }
     }
@@ -40,6 +41,8 @@
     .cell {
       display: flex;
       justify-content: flex-end;
+      text-align: right;
+      overflow-wrap: anywhere;
       width: 190px;
       padding: 4px 6px;
       border-right: 2px solid var(--white);
@@ -49,6 +52,7 @@
       }
 
       &.header {
+        text-align: left;
         flex-direction: column;
 
         .type {

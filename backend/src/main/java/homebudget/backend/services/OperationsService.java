@@ -25,6 +25,9 @@ public class OperationsService {
         try {
             operationsRepository.insertNewOperation(operation);
         } catch (SQLException e) {
+            if ("23503".equals(e.getSQLState())) {
+                throw new AppException("INVALID_ARTICLE_ID", HttpStatus.CONFLICT, "Invalid article id");
+            }
             throw new UnknownAppException(e);
         }
     }
@@ -54,6 +57,8 @@ public class OperationsService {
         } catch (SQLException e) {
             if ("HB001".equals(e.getSQLState())) {
                 throw new AppException("UPDATING_INCLUDED_OPERATION", HttpStatus.CONFLICT, "Unable to update debit or credit of operation that is included into balance", e);
+            } else if ("23503".equals(e.getSQLState())) {
+                throw new AppException("INVALID_ARTICLE_ID", HttpStatus.CONFLICT, "Invalid article id");
             }
             throw new UnknownAppException(e);
         }

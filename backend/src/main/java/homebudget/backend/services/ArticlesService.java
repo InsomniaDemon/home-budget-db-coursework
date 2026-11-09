@@ -34,7 +34,7 @@ public class ArticlesService {
             articlesRepository.insertNewArticle(articleRequest);
         } catch (SQLException e) {
             if ("23505".equals(e.getSQLState())) {
-                throw new AppException("ARTICLE_ALREADY_EXIST", HttpStatus.CONFLICT, "Article with specified name already exist", e);
+                throw new AppException("ARTICLE_ALREADY_EXIST", HttpStatus.CONFLICT, "This article name already taken", e);
             }
             throw new UnknownAppException(e);
         }
@@ -45,7 +45,7 @@ public class ArticlesService {
             articlesRepository.updateArticle(id, articleRequest);
         } catch (SQLException e) {
             if ("23505".equals(e.getSQLState())) {
-                throw new AppException("ARTICLE_ALREADY_EXIST", HttpStatus.CONFLICT, "Article with specified name already exist", e);
+                throw new AppException("ARTICLE_ALREADY_EXIST", HttpStatus.CONFLICT, "This article name already taken", e);
             }
             throw new UnknownAppException(e);
         }
@@ -65,7 +65,7 @@ public class ArticlesService {
             articlesRepository.deleteArticleWithOperations(id);
         } catch (SQLException e) {
             if ("HB002".equals(e.getSQLState())) {
-                throw new DeletingIncludedOperationException("Article was not deleted: some of its operations are already included in a balance", e);
+                throw new DeletingIncludedOperationException("Article was not deleted: some of it's operations are already included in a balance", e);
             }
             throw new UnknownAppException(e);
         }

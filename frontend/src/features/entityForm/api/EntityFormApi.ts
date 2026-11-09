@@ -1,4 +1,5 @@
 import type {Row} from "@/entities/schema";
+import {ApiError, toApiError} from "@/shared/apiError";
 
 const BASE_URL = "http://localhost:8080/api";
 
@@ -15,7 +16,9 @@ export async function addOrEditRow(row: Row, jwt: string, logout: () => void, pa
 
     if (response.status === 401) {
         logout()
+    } else if (response.status === 403) {
+        throw new ApiError(403, "ACCESS_DENIED", "You don't have permission to perform this action")
     } else if (!response.ok) {
-        throw new Error(`Failed to delete ${row}: ${response.status}`)
+        throw await toApiError(response)
     }
 }

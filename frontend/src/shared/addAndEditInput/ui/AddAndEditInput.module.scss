@@ -1,6 +1,7 @@
 .addAndEditInput {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
   color: var(--white);
   font-size: 24px;
@@ -16,34 +17,56 @@
     }
   }
 
-  input {
-    font-size: 20px;
-    padding: 0 1em;
-    width: 240px;
-    height: 60px;
-    background-color: var(--dark-grey-hover);
-    border: none;
-    border-radius: 10px;
-    color: var(--white);
-    transition: 0.3s ease;
+  .field {
+    position: relative;
 
-    &:focus {
-      outline: 2px solid var(--white);
+
+    input {
+      font-size: 20px;
+      padding: 0 1em;
+      width: 240px;
+      height: 60px;
+      background-color: var(--dark-grey-hover);
+      border: none;
+      border-radius: 10px;
+      color: var(--white);
+      transition: 0.3s ease;
+
+      &:hover {
+        background-color: var(--black);
+      }
+
+      &:focus {
+        outline: 2px solid var(--white);
+      }
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+
+      &[type="datetime-local"]::-webkit-calendar-picker-indicator {
+        display: none;
+      }
     }
 
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    .errorInput {
+      outline: 2px solid var(--purple);
     }
 
-    &[type="number"] {
-      -moz-appearance: textfield;
-      appearance: textfield;
-    }
-
-    &[type="datetime-local"]::-webkit-calendar-picker-indicator {
-      display: none;
+    .error {
+      font-size: 20px;
+      font-weight: 500;
+      position: absolute;
+      bottom: -30px;
+      left: 5px;
+      color: var(--purple);
     }
   }
 }
