@@ -43,10 +43,10 @@
             opacity: 0.8;
           }
         }
+      }
 
-        &:not(:last-child) {
-          border-bottom: 2px solid var(--white);
-        }
+      &:not(:last-child) {
+        border-bottom: 2px solid var(--white);
       }
     }
   }

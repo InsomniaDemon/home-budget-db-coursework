@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +22,19 @@ public class ReportsRepository {
 
     public List<ArticlePercentage> getArticlePercentages(List<Long> articleIds) throws SQLException {
         String sql = """
-                CALL get_article_percentages(?, ?)
+                CALL get_article_percentages(?, ?::refcursor)
                 """;
 
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setArray(1, connection.createArrayOf("bigint", articleIds.toArray()));
-                preparedStatement.setString(2, "res_cur");
+                preparedStatement.setString(2, "percentage_cur");
                 preparedStatement.execute();
             }
 
             try (PreparedStatement preparedStatement =
-                         connection.prepareStatement("FETCH ALL FROM res_cur");
+                         connection.prepareStatement("FETCH ALL FROM percentage_cur");
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 return mapResultSetToArticlePercentagesList(resultSet);
@@ -43,25 +44,25 @@ public class ReportsRepository {
         }
     }
 
-    public List<IncomeExpenseDynamics> getIncomeExpenseDynamics(String dateFrom, String dateTo, List<Long> articleIds) throws SQLException {
+    public List<IncomeExpenseDynamics> getIncomeExpenseDynamics(LocalDateTime dateFrom, LocalDateTime dateTo, List<Long> articleIds) throws SQLException {
 
         String sql = """
-                CALL get_income_expense_dynamics(?, ?, ?, ?)
+                CALL get_income_expense_dynamics(?, ?, ?, ?::refcursor)
                 """;
 
         Connection connection = DataSourceUtils.getConnection(dataSource);
 
         try {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDate(1, Date.valueOf(dateFrom));
-                preparedStatement.setDate(2, Date.valueOf(dateTo));
+                preparedStatement.setObject(1, dateFrom);
+                preparedStatement.setObject(2, dateTo);
                 preparedStatement.setArray(3, connection.createArrayOf("bigint", articleIds.toArray()));
-                preparedStatement.setString(4, "res_cur");
+                preparedStatement.setString(4, "income_expense_cur");
                 preparedStatement.execute();
             }
 
             try (PreparedStatement preparedStatement =
-                         connection.prepareStatement("FETCH ALL FROM res_cur");
+                         connection.prepareStatement("FETCH ALL FROM income_expense_cur");
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 return mapResultSetToIncomeExpenseDynamicsList(resultSet);
@@ -71,23 +72,23 @@ public class ReportsRepository {
         }
     }
 
-    public List<NetProfitDynamics> getNetProfitDynamics(String dateFrom, String dateTo, List<Long> articleIds) throws SQLException {
+    public List<NetProfitDynamics> getNetProfitDynamics(LocalDateTime dateFrom, LocalDateTime dateTo, List<Long> articleIds) throws SQLException {
         String sql = """
-                CALL get_net_profit_dynamics(?, ?, ?, ?)
+                CALL get_net_profit_dynamics(?, ?, ?, ?::refcursor)
                 """;
 
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDate(1, Date.valueOf(dateFrom));
-                preparedStatement.setDate(2, Date.valueOf(dateTo));
+                preparedStatement.setObject(1, dateFrom);
+                preparedStatement.setObject(2, dateTo);
                 preparedStatement.setArray(3, connection.createArrayOf("bigint", articleIds.toArray()));
-                preparedStatement.setString(4, "res_cur");
+                preparedStatement.setString(4, "profit_cur");
                 preparedStatement.execute();
             }
 
             try (PreparedStatement preparedStatement =
-                         connection.prepareStatement("FETCH ALL FROM res_cur");
+                         connection.prepareStatement("FETCH ALL FROM profit_cur");
                  ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 return  mapResultSetToNetProfitDynamicsList(resultSet);
@@ -99,10 +100,10 @@ public class ReportsRepository {
 
     public ArticlePercentage mapRowToArticlePercentage(ResultSet resultSet) throws SQLException {
         return new ArticlePercentage(
-                resultSet.getObject("article_id", Long.class),
-                resultSet.getObject("debit", Double.class),
-                resultSet.getObject("credit", Double.class),
-                resultSet.getObject("amount", Double.class)
+                resultSet.getLong("article_id"),
+                resultSet.getDouble("debit"),
+                resultSet.getDouble("credit"),
+                resultSet.getDouble("amount")
         );
     }
 
@@ -119,8 +120,8 @@ public class ReportsRepository {
     public IncomeExpenseDynamics mapRowToIncomeExpenseDynamics(ResultSet resultSet) throws SQLException {
         return new IncomeExpenseDynamics(
                 resultSet.getString("date"),
-                resultSet.getObject("debit", Long.class),
-                resultSet.getObject("credit", Long.class)
+                resultSet.getLong("debit"),
+                resultSet.getLong("credit")
         );
     }
 

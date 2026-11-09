@@ -8,10 +8,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api")
 public class ReportsController {
     private final ReportsService reportsService;
 
@@ -23,12 +24,12 @@ public class ReportsController {
     }
 
     @GetMapping("/i-e-dynamics")
-    public List<IncomeExpenseDynamics> getIncomeExpenseDynamics(@AuthenticationPrincipal Jwt jwt, @RequestParam String dateFrom, @RequestParam String dateTo, @RequestParam List<Long> articleIds) {
+    public List<IncomeExpenseDynamics> getIncomeExpenseDynamics(@AuthenticationPrincipal Jwt jwt, @RequestParam LocalDateTime dateFrom, @RequestParam LocalDateTime dateTo, @RequestParam List<Long> articleIds) {
         return reportsService.getIncomeExpenseDynamics(dateFrom, dateTo, articleIds);
     }
 
     @GetMapping("/profit")
-    public List<NetProfitDynamics> getNetProfitDynamics(@AuthenticationPrincipal Jwt jwt, @RequestParam String dateFrom, @RequestParam String dateTo, @RequestParam List<Long> articleIds) {
+    public List<NetProfitDynamics> getNetProfitDynamics(@AuthenticationPrincipal Jwt jwt, @RequestParam LocalDateTime dateFrom, @RequestParam LocalDateTime dateTo, @RequestParam List<Long> articleIds) {
         return reportsService.getNetProfitDynamics(dateFrom, dateTo, articleIds);
     }
 }

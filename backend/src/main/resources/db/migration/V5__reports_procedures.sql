@@ -13,7 +13,6 @@ BEGIN
                 SUM(o.credit) AS credit_sum,
                 SUM(o.debit) - SUM(o.credit) AS amount_sum
             FROM operations o
-                     JOIN balance b ON b.id = o.balance_id
             WHERE o.article_id = ANY(article_ids)
             GROUP BY o.article_id
         )
@@ -44,8 +43,8 @@ END;
 $$;
 
 CREATE OR REPLACE PROCEDURE get_income_expense_dynamics(
-    IN date_from DATE,
-    IN date_to DATE,
+    IN date_from TIMESTAMP WITHOUT TIME ZONE,
+    IN date_to TIMESTAMP WITHOUT TIME ZONE,
     IN article_ids BIGINT[],
     INOUT cur_res REFCURSOR DEFAULT 'res_cur'
 )
@@ -54,25 +53,24 @@ AS $$
 BEGIN
     OPEN cur_res FOR
         SELECT
-            b.create_date::DATE AS operation_date,
-            SUM(o.debit) AS expenses,
-            SUM(o.credit) AS income
+            o.create_date::DATE AS date,
+            SUM(o.debit) AS debit,
+            SUM(o.credit) AS credit
         FROM operations o
-                 JOIN balance b ON b.id = o.balance_id
-        WHERE b.create_date >= date_from
-          AND b.create_date < date_to + INTERVAL '1 day'
+        WHERE o.create_date >= date_from
+          AND o.create_date < date_to + INTERVAL '1 day'
           AND (
             article_ids IS NULL
                 OR o.article_id = ANY(article_ids)
             )
-        GROUP BY b.create_date::DATE
-        ORDER BY operation_date;
+        GROUP BY o.create_date::DATE
+        ORDER BY date;
 END;
 $$;
 
 CREATE OR REPLACE PROCEDURE get_net_profit_dynamics(
-    IN date_from DATE,
-    IN date_to DATE,
+    IN date_from TIMESTAMP WITHOUT TIME ZONE,
+    IN date_to TIMESTAMP WITHOUT TIME ZONE,
     IN article_ids BIGINT[],
     INOUT cur_res REFCURSOR DEFAULT 'res_cur'
 )
@@ -81,17 +79,16 @@ AS $$
 BEGIN
     OPEN cur_res FOR
         SELECT
-            b.create_date::DATE AS operation_date,
-            SUM(o.credit) - SUM(o.debit) AS net_profit
+            o.create_date::DATE AS date,
+            SUM(o.debit) - SUM(o.credit) AS net_profit
         FROM operations o
-                 JOIN balance b ON b.id = o.balance_id
-        WHERE b.create_date >= date_from
-          AND b.create_date < date_to + INTERVAL '1 day'
+        WHERE o.create_date >= date_from
+          AND o.create_date < date_to + INTERVAL '1 day'
           AND (
             article_ids IS NULL
                 OR o.article_id = ANY(article_ids)
             )
-        GROUP BY b.create_date::DATE
-        ORDER BY operation_date;
+        GROUP BY o.create_date::DATE
+        ORDER BY date;
 END;
 $$;
