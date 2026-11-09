@@ -46,3 +46,36 @@ export const balances: EntityConfig = {
         {name: "amount", label: "amount",type: "number", inForm: false},
     ],
 }
+
+export interface ReportConfig {
+    path: string
+    fields: FieldConfig[]
+    dateRequired: boolean
+}
+
+export const percentage: ReportConfig = {
+    path: "/percentage", dateRequired: false,
+    fields: [
+        {name: "articleId", label: "articleId",type: "number"},
+        {name: "debit", label: "debit",type: "number"},
+        {name: "credit", label: "credit",type: "number"},
+        {name: "amount", label: "amount",type: "number"},
+    ],
+}
+
+export const incomeExpense: ReportConfig = {
+    path: "/i-e-dynamics", dateRequired: true,
+    fields: [
+        {name: "date", label: "date",type: "datetime"},
+        {name: "debit", label: "debit",type: "number"},
+        {name: "credit", label: "credit",type: "number"},
+    ],
+}
+
+export const profit: ReportConfig = {
+    path: "/profit", dateRequired: true,
+    fields: [
+        {name: "date", label: "date",type: "datetime"},
+        {name: "netProfit", label: "netProfit",type: "number"},
+    ],
+}

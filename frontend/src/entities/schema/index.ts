@@ -1,2 +1,2 @@
-export type {Row, EntityConfig, FieldConfig} from "./model/config"
-export {articles, balances, operations} from "./model/config"
+export type {Row, EntityConfig, ReportConfig, FieldConfig} from "./model/config"
+export {articles, balances, operations, percentage, incomeExpense, profit} from "./model/config"

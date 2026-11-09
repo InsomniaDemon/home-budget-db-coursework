@@ -100,9 +100,9 @@ public class ReportsRepository {
     public ArticlePercentage mapRowToArticlePercentage(ResultSet resultSet) throws SQLException {
         return new ArticlePercentage(
                 resultSet.getObject("article_id", Long.class),
-                resultSet.getObject("debit", Long.class),
-                resultSet.getObject("credit", Long.class),
-                resultSet.getObject("amount", Long.class)
+                resultSet.getObject("debit", Double.class),
+                resultSet.getObject("credit", Double.class),
+                resultSet.getObject("amount", Double.class)
         );
     }
 
