@@ -9,6 +9,7 @@ import {BalancesPage} from "@/pages/balances";
 import {AuthorisationPage} from "@/pages/authorisation";
 import {ArticlesPage} from "@/pages/articles";
 import {AuthProvider} from "@/entities/auth";
+import {ReportsPage} from "@/pages/reports";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                           <Route path="/operations" element={<OperationsPage/>}></Route>
                           <Route path="/balances" element={<BalancesPage/>}></Route>
                           <Route path="/articles" element={<ArticlesPage/>}></Route>
+                          <Route path="/reports" element={<ReportsPage/>}></Route>
                           <Route path="/auth" element={<AuthorisationPage/>}></Route>
                           <Route path="*" element={<Navigate to="/operations"/>}></Route>
                       </Routes>
