@@ -6,8 +6,15 @@ import {AddAndEditInput} from "@/shared/addAndEditInput";
 import {SubmitButton} from "@/shared/submitButton";
 import {getReportTable} from "@/widgets/reportGridview";
 
+type FormErrors = {
+    dateFrom?: string
+    dateTo?: string
+    articleIds?: string
+}
+
 export function ReportsGridView({config}: {config: ReportConfig}) {
     const [rows, setRows] = useState<Row[]>([])
+    const [errors, setErrors] = useState<FormErrors>({})
     const {jwt, logout} = useAuth()
 
     useEffect(() => {
@@ -20,6 +27,10 @@ export function ReportsGridView({config}: {config: ReportConfig}) {
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
 
+        setErrors({})
+        const newErrors: FormErrors = {}
+        let toAbort: boolean = false
+
         const formData = new FormData(e.currentTarget)
 
         let path: string = config.path + "?"
@@ -28,18 +39,34 @@ export function ReportsGridView({config}: {config: ReportConfig}) {
             const dateFrom = formData.get("date-from") as string
             const dateTo = formData.get("date-to") as string
 
+            if (dateFrom.length === 0) {
+                newErrors.dateFrom = "Empty dateFrom"
+                toAbort = true
+            }
+            if (dateTo.length === 0) {
+                newErrors.dateTo = "Empty dateTo"
+                toAbort = true
+            }
+
             path += "dateFrom=" + dateFrom + "&dateTo=" + dateTo
         }
 
         const articleIdsString = formData.get("article-ids") as string
-
-        if (!/^[\d\s]+$/.test(articleIdsString)) {
-            console.error("Invalid article IDs");
-            return;
+        if (articleIdsString.length === 0 || /^\s+$/.test(articleIdsString)) {
+            newErrors.articleIds = "Empty articleIds"
+            toAbort = true;
+        } else if (!/^[\d\s]+$/.test(articleIdsString)) {
+            newErrors.articleIds = "Use only numbers and spaces"
+            toAbort = true;
         }
 
         for(const articleId of articleIdsString.split(" ")) {
             path += "&articleIds=" + articleId
+        }
+
+        if (toAbort) {
+            setErrors(newErrors)
+            return
         }
 
         try {
@@ -53,9 +80,9 @@ export function ReportsGridView({config}: {config: ReportConfig}) {
     return (
         <div className={styles.report}>
             <form className={styles.query} onSubmit={handleSubmit}>
-                {config.dateRequired && <AddAndEditInput label="dateFrom" name="date-from" type="datetime-local"/>}
-                {config.dateRequired && <AddAndEditInput label="dateTo" name="date-to" type="datetime-local"/>}
-                <AddAndEditInput label="articleIds" name="article-ids" type="string"/>
+                {config.dateRequired && <AddAndEditInput label="dateFrom" name="date-from" type="datetime-local" error={errors.dateFrom}/>}
+                {config.dateRequired && <AddAndEditInput label="dateTo" name="date-to" type="datetime-local" error={errors.dateTo}/>}
+                <AddAndEditInput label="articleIds" name="article-ids" type="string" error={errors.articleIds}/>
                 <SubmitButton text={"Browse report"}/>
             </form>
 

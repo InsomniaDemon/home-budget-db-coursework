@@ -23,9 +23,9 @@ export function ReportsPage() {
                     <span>Net profit dynamics</span>
                 </label>
             </div>
-            {reportShown === "article-percentage" && ReportGridView({config: percentage})}
-            {reportShown === "income-expense-dynamics" && ReportGridView({config: incomeExpense})}
-            {reportShown === "net-profit-dynamics" && ReportGridView({config: profit})}
+            {reportShown === "article-percentage" && <ReportGridView config={percentage}/>}
+            {reportShown === "income-expense-dynamics" && <ReportGridView config={incomeExpense}/>}
+            {reportShown === "net-profit-dynamics" && <ReportGridView config={profit}/>}
         </div>
     );
 }

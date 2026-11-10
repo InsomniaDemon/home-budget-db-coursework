@@ -23,10 +23,10 @@ export function Header() {
                     <p className={styles.home}>Home</p>
                     <p className={styles.budget}>Budget</p>
                 </div>
-                {jwt && <PageLink page="/reports" buttonText="Reports"/>}
                 {jwt && <PageLink page="/operations" buttonText="Operations"/>}
                 {jwt && <PageLink page="/articles" buttonText="Articles"/>}
                 {jwt && <PageLink page="/balances" buttonText="Balances"/>}
+                {jwt && <PageLink page="/reports" buttonText="Reports"/>}
                 {jwt &&
                     <button className={styles.logout} onClick={logout}>
                         <img src={logoutImg} alt="logout img"/>
