@@ -1,14 +1,15 @@
 .pageLink {
+  padding: 0 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 180px;
+  width: 8.6vw;
   height: 60px;
   border-radius: 14px;
   text-decoration: none;
   color: var(--white);
   font-weight: 500;
-  font-size: 24px;
+  font-size: clamp(16px, 1.5vw, 30px);
   background-color: var(--dark-grey);
   transition: 0.3s ease;
 

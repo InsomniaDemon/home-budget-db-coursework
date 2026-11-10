@@ -10,10 +10,27 @@
     gap: 2em;
   }
 
+  @media (max-width: 1400px) {
+    .query {
+      flex-direction: column;
+      gap: 1em;
+    }
+
+    span {
+      font-size: 18px !important;
+    }
+
+    input {
+      font-size: 18px !important;
+      height: 50px !important;
+      width: 180px !important;
+    }
+  }
+
   .reportTable {
     color: var(--white);
     font-weight: bold;
-    font-size: 22px;
+    font-size: clamp(16px, 1.2vw, 22px);
     border: 2px solid var(--white);
     border-radius: 8px;
     width: fit-content;
@@ -26,7 +43,7 @@
         justify-content: flex-end;
         text-align: right;
         overflow-wrap: anywhere;
-        width: 190px;
+        width: 10vw;
         padding: 4px 6px;
         border-right: 2px solid var(--white);
 
@@ -39,7 +56,7 @@
           flex-direction: column;
 
           .type {
-            font-size: 20px;
+            font-size: clamp(10px, 1vw, 20px);
             opacity: 0.8;
           }
         }

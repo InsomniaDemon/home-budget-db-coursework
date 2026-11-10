@@ -3,10 +3,10 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 4em;
+  gap: 2.4vw;
 
   .title {
-    font-size: 40px;
+    font-size: clamp(30px, 2vw, 40px);
     margin-right: auto;
     display: flex;
     gap: 8px;

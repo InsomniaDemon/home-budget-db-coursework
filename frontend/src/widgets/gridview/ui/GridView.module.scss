@@ -8,7 +8,7 @@
   .table {
     color: var(--white);
     font-weight: bold;
-    font-size: 22px;
+    font-size: clamp(16px, 1.2vw, 22px);
     border: 2px solid var(--white);
     border-radius: 8px;
     width: fit-content;
@@ -20,13 +20,13 @@
       .buttons {
         position: absolute;
         top: 0;
-        right: -100px;
+        right: clamp(-120px, -8vw, -20px);
         height: 100%;
-        width: 80px;
+        width: clamp(20px, 8vw, 100px);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 0.5vw
       }
     }
 
@@ -43,7 +43,7 @@
       justify-content: flex-end;
       text-align: right;
       overflow-wrap: anywhere;
-      width: 190px;
+      width: 10vw;
       padding: 4px 6px;
       border-right: 2px solid var(--white);
 
@@ -56,7 +56,7 @@
         flex-direction: column;
 
         .type {
-          font-size: 20px;
+          font-size: clamp(10px, 1vw, 20px);
           opacity: 0.8;
         }
       }
@@ -72,8 +72,8 @@
     }
 
     img {
-      width: 28px;
-      height: 28px;
+      width: clamp(15px, 1.4vw, 30px);
+      height: clamp(15px, 1.4vw, 30px);
       opacity: 0.84;
     }
   }

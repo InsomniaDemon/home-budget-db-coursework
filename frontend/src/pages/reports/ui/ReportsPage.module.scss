@@ -13,9 +13,10 @@
       justify-content: center;
       align-items: center;
       font-weight: 500;
-      width: 340px;
+      width: 17vw;
       height: 40px;
-      font-size: 24px;
+      font-size: clamp(16px, 1.3vw, 22px);
+      text-align: center;
       color: var(--white);
       transition: opacity 0.3s ease;
       position: relative;

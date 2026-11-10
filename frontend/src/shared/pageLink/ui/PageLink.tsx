@@ -7,7 +7,7 @@ function PageLink({page, buttonText}: {page: string, buttonText: string}) {
 
     return (
         <NavLink to={page} className={linkClassName}>
-            <p>{buttonText}</p>
+            <span>{buttonText}</span>
         </NavLink>
     );
 }

@@ -4,9 +4,7 @@ import {articles} from "@/entities/schema";
 
 export function ArticlesPage() {
     return (
-        <div>
             <GridView config={articles}/>
-        </div>
     );
 }
 
